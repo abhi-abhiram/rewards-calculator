@@ -6,6 +6,7 @@ services:
       dockerfile: Dockerfile.fluentd
     volumes:
       - ./fluentd/:/fluentd/etc:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers
     ports:
       - "24224:24224"
       - "24224:24224/udp"
@@ -16,11 +17,11 @@ services:
       - "3000:80"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-async-connect: "true"
-        tag: nginx
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     fluentd-async-connect: "true"
+    #     tag: nginx
 
   rewards-calculator-app:
     image: abhiramabhi/radix-rewards-calculator
@@ -33,11 +34,11 @@ services:
       - NODE_ENV=production
     env_file:
       - ./.env
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-async-connect: "true"
-        tag: rewards
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     fluentd-async-connect: "true"
+    #     tag: rewards
         
     command: npm start
 
